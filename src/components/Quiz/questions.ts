@@ -6,7 +6,7 @@ export const questions = [
         "Menos de 960 bytes",
         "Más de 970 bytes",
         "Hasta 960 bytes",
-        "Hatsa 960 bytes"
+        "Hasta 960 bytes"
       ],
       answer: "Hasta 960 bytes"
     },

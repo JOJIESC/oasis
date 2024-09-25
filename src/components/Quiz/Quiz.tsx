@@ -128,7 +128,7 @@ const Quiz = () => {
         ))}
     </div>
 
-    {/* Mensaje de retroalimentación centrado */}
+    {/* Mensaje retroalimentación */}
     {responseMessage && (
         <p
             className={`text-lg font-semibold mt-4 text-center ${
