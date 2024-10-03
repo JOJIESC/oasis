@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Juego del ahorcado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="flex" style="position: absolute; top: 10px; left: 10px;">
+    <button
+      class="flex items-center gap-2 bg-gray-200 p-1 rounded-md"
+      onclick="window.location.href = '/'"
+      style="padding: 5px;"
+    >
+      <img className="" src="/icons/home.png" alt="go Home" style="width: 20px; height: 20px;" />
+      <p style="margin: 0; font-size: 12px;">Go home</p>
+    </button>
+  </div>
+  <div class="main-container">
+    <div id="izq">
+      
+    <h1 class="titulo">Juego del ahorcado</h1>
+    <h1 id="msg-final"></h1>
+    <h3 id="acierto"></h3>
+    <div>
+      <div id="imagenes-ahorcado">
+        <img src="img/ahorcado_6.png" alt="" id="image15" class="ahorcado">
+        <img src="img/ahorcado_5.png" alt="" id="image10" class="ahorcado">
+        <img src="img/ahorcado_3.png" alt="" id="image5" class="ahorcado">
+        <img src="img/ahorcado_0.png" alt="" id="image0" class="ahorcado">
+      </div>
+      <h2 class="palabra" id="palabra"></h2>
+    </div>
+    <div id="turnos">
+      <div>
+        <h3>Intentos restantes: <span id="intentos">6</span></h3>
+        <div class="tache">
+          <img src="img/Tache.png" id="tache10">
+          <img src="img/Tache.png" id="tache5">
+          <img src="img/Tache.png" id="tache0">
+        </div>
+      </div>
+      <div class="acciones">
+        <button onclick="reset()" id="reset">Elegir otra palabra</button>
+        <button onclick="pista()" id="pista">Dame una pista!</button>
+      </div>
+    </div>
+    <div>
+      <span id="hueco-pista"></span>
+    </div>
+    </div>
+
+    <div id="der">
+      <div class="teclado">
+          <div class="flex-row" id="abcdario">
+          </div>
+        <div></div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</body>
+</html>
+
+<style>
+    body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff; /* Fondo blanco para concordar con las imágenes */
+  background-image: url(img/whiteboard-7163891_1920.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: "Space Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  height: 100%;
+  margin-left: 100px;
+  gap: 20px;
+}
+
+#izq {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#abcdario {
+  max-width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Alinear el abecedario al centro */
+}
+
+#abcdario button {
+  font-family: "Space Mono", monospace;
+  border: none;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 5px;
+  margin: .5rem;
+  font-size: larger;
+  background-color: #f0f0f0; /* Color más claro para botones */
+  font-weight: 700;
+  color: #333; /* Texto más oscuro */
+  transition: background-color 0.3s ease;
+}
+
+#abcdario button:hover {
+  background-color: #dcdcdc; /* Efecto hover para botones */
+}
+
+/* Cuando el botón está deshabilitado después de ser presionado */
+#abcdario button:disabled {
+  background-color: #a3a3a3; /* Cambia a un gris oscuro */
+  color: #fff; /* El texto se vuelve blanco para contraste */
+  cursor: not-allowed; /* Cambia el cursor para indicar que no es clickeable */
+  transform: scale(0.95); /* Reduce el tamaño ligeramente para dar feedback visual */
+}
+
+.teclado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.acciones {
+  font-family: "Space Mono", monospace;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.acciones button {
+  font-family: "Space Mono", monospace;
+  border: none;
+  margin-bottom: 1rem;
+  font-size: larger;
+  border-radius: 5px;
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.acciones button:hover {
+  background-color: #dcdcdc; /* Efecto hover para los botones de acción */
+}
+
+#hueco-pista {
+  max-width: 60%;
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 4rem;
+  font-size: 1.2rem;
+  color: #555; /* Texto más oscuro para la pista */
+}
+
+h1#msg-final {
+  color: crimson;
+  transition: all .5s ease;
+  transform: scale(0);
+  min-height: 50px;
+  margin-bottom: 0;
+  font-size: 2rem; /* Texto grande para el mensaje final */
+  text-align: center;
+}
+
+#image5, #image15, #image10, #image0 {
+  width: 100px;
+  height: auto;
+  display: none;
+}
+
+.tache {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 20px;
+}
+
+#tache5, #tache10, #tache0 {
+  width: 70px;
+  height: auto;
+  display: none;
+}
+
+#acierto {
+  text-align: center;
+  min-height: 24px;
+  transform: scale(1);
+}
+
+.acierto {
+  transition: all .1s ease;
+  transform: scale(0);
+}
+
+/* Ajustes generales */
+h1, h2, h3 {
+  color: #333;
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#intentos {
+  font-weight: bold;
+  color: crimson;
+}
+
+#palabra {
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+  margin: 20px 0;
+  color: #333;
+}
+
+</style>
+
+<script>
+    const palabras = [
+  ["computadora", "Dispositivo electrónico utilizado para procesar información."], 
+  ["informatica", "Ciencia que estudia el tratamiento automático de la información."], 
+  ["cargador", "Dispositivo que se utiliza para recargar la batería de otros dispositivos."], 
+  ["javascript", "Lenguaje de programación utilizado principalmente para crear contenido web interactivo."],
+  ["pizarron", "Superficie en la que se puede escribir o dibujar, generalmente con tiza o marcadores."], 
+  ["monitor", "Dispositivo de salida que muestra información gráfica generada por una computadora."], 
+  ["reloj", "Instrumento para medir el tiempo que generalmente se lleva en la muñeca."],
+  ["motor", "Máquina que convierte energía en movimiento mecánico."], 
+  ["arreglo", "Estructura de datos que contiene una colección de elementos del mismo tipo."],
+  ["framework", "Colección de herramientas y componentes predefinidos que facilitan el desarrollo de software."], 
+  ["formato", "Estructura o disposición de algo, especialmente cuando se trata de texto o datos."], 
+  ["auriculares", "Dispositivo que se coloca sobre las orejas para escuchar sonido de una fuente electrónica."],
+  ["switch", "Dispositivo de red que conecta diferentes segmentos de red y filtra el tráfico de datos."], 
+  ["protocolo", "Conjunto de reglas que permiten la comunicación entre dispositivos en una red."],
+  ["internet", "Red global de computadoras interconectadas que utilizan el Protocolo de Internet para comunicarse."], 
+  ["constante", "Valor fijo que no cambia en una expresión matemática o un programa de computadora."], 
+  ["desarrollar", "Crear y mejorar un programa de computadora escribiendo y probando código."],
+  ["automatizar", "Hacer que un proceso o tarea se realice automáticamente, sin intervención humana directa."], 
+  ["licenciatura", "Grado académico otorgado por una institución educativa tras completar un programa de estudios."], 
+  ["consola", "Dispositivo de entrada y salida que se utiliza para interactuar con una computadora mediante comandos."],
+  ["teclado", "Dispositivo de entrada que utiliza un conjunto de teclas para introducir datos a una computadora."],
+  ["raton", "Dispositivo de entrada que permite interactuar con la computadora mediante el movimiento de un cursor."],
+  ["sistema", "Conjunto de elementos interrelacionados que funcionan como una unidad."],
+  ["compilador", "Programa que traduce código fuente de un lenguaje de programación a un lenguaje máquina."],
+  ["variable", "Elemento en un programa que puede cambiar su valor durante la ejecución."],
+  ["router", "Dispositivo de red que dirige paquetes de datos entre redes diferentes."],
+  ["dominio", "Nombre único que identifica a un sitio web en Internet."],
+  ["algoritmo", "Conjunto de instrucciones ordenadas para resolver un problema o realizar una tarea."],
+  ["bit", "La unidad más pequeña de información en un sistema binario, representando 0 o 1."],
+  ["bytes", "Unidad de información que generalmente consiste en 8 bits."],
+  ["html", "Lenguaje de marcado utilizado para crear y estructurar contenido en la web."],
+  ["css", "Lenguaje utilizado para definir la apariencia visual de un documento HTML."],
+  ["servidor", "Computadora que proporciona recursos o servicios a otras computadoras en una red."],
+  ["cliente", "Dispositivo o programa que accede a los recursos proporcionados por un servidor."],
+  ["seguridad", "Prácticas y tecnologías que protegen sistemas y datos contra accesos no autorizados."],
+  ["archivo", "Colección de datos almacenada bajo un nombre en una computadora."],
+  ["carpeta", "Contenedor utilizado para organizar archivos en un sistema de almacenamiento."],
+  ["red", "Conjunto de computadoras conectadas para compartir recursos e información."],
+  ["cache", "Memoria de acceso rápido que almacena temporalmente datos para mejorar el rendimiento."],
+  ["bucle", "Estructura de control que repite un bloque de código varias veces en un programa."],
+  ["encriptar", "Convertir datos en un formato cifrado para proteger su confidencialidad."],
+  ["firewall", "Sistema de seguridad que controla el tráfico de red entrante y saliente basado en reglas."],
+];
+
+
+
+let palabra = "";
+let oculta = [];
+let hueco = document.getElementById("palabra");
+let contador = 3;
+let buttons = document.getElementsByClassName("letra");
+let btnInicio = document.getElementById("reset");
+let palabraIndex;
+
+// ### FUNCIONES ###
+
+// Función para generar la palabra
+function generaPalabra() {
+  palabraIndex = Math.floor(Math.random() * palabras.length);
+  palabra = palabras[palabraIndex][0].toUpperCase();
+  document.getElementById("hueco-pista").innerHTML = ""; 
+  console.log(palabra);
+}
+
+
+// Función para obtener la pista correspondiente a la palabra seleccionada
+function pista() {
+  document.getElementById("hueco-pista").innerHTML = palabras[palabraIndex][1]; // Usar el índice guardado para obtener la pista
+}
+
+// Funcion para pintar los guiones de la palabra
+function pintarGuiones(num) {
+  for (let i = 0; i < num; i++) {
+    oculta[i] = "_";
+  }
+  hueco.innerHTML = oculta.join("");
+}
+
+//Generar abecedario
+function teclado () {
+  document.getElementById("abcdario").innerHTML = "";
+  let inicio = "a";
+  let fin = "z";
+  let i = inicio.charCodeAt(0), j = fin.charCodeAt(0);
+  let letra = "";
+  for( ; i<=j; i++) {
+      letra = String.fromCharCode(i).toUpperCase();
+      document.getElementById("abcdario").innerHTML += "<button value='" + letra + "' onclick='intento(\"" + letra + "\")' class='letra' id='"+letra+"'>" + letra + "</button>";
+      if(i == "ñ".charCodeAt(0)) {
+          document.getElementById("abcdario").innerHTML += "<button value='Ñ' onclick='intento(\"Ñ\")' class='letra' id='"+letra+"'>Ñ</button>";
+      }
+  }
+}
+
+// Chequear intento
+function intento(letra) {
+  document.getElementById(letra).disabled = true;
+  if (palabra.includes(letra)) {
+    for (let i = 0; i < palabra.length; i++) {
+      if (palabra[i] === letra) oculta[i] = letra;
+    }
+    hueco.innerHTML = oculta.join("");
+    document.getElementById("acierto").innerHTML = "Bien!";
+  } else {
+    contador--;
+    document.getElementById("intentos").innerHTML = contador;
+    document.getElementById("acierto").innerHTML = "Fallo!";
+    if (contador <= 3) {
+      document.getElementById("image15").style.display = "block";
+    }
+    if(contador <= 2){
+      document.getElementById("image15").style.display = "none";
+      document.getElementById("image10").style.display = "block";
+      document.getElementById("tache10").style.display = "block";
+    }
+    if(contador <= 1){
+      document.getElementById("image10").style.display = "none";
+      document.getElementById("image5").style.display = "block";
+      document.getElementById("tache5").style.display = "block";
+    }
+    if(contador == 0){
+      document.getElementById("image5").style.display = "none";
+      document.getElementById("image0").style.display = "block";
+      document.getElementById("tache0").style.display = "block";
+    }
+  }
+  compruebaFin();
+  setTimeout(function () { 
+    document.getElementById("acierto").className = "acierto";
+  }, 800);
+}
+
+// Compruba si ha finalizado
+function compruebaFin() {
+  if (oculta.indexOf("_") === -1) {
+    document.getElementById("msg-final").innerHTML = "Felicidades !!";
+    document.getElementById("msg-final").style.transform = "scale(1)";
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+    document.getElementById("reset").innerHTML = "Empezar";
+    btnInicio.onclick = function() { location.reload() };
+  } else if (contador <= 0) { 
+    contador = 0;
+    document.getElementById("msg-final").innerHTML = "Game Over";
+    document.getElementById("msg-final").style.transform = "scale(1)"
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+    document.getElementById("reset").innerHTML = "Empezar";
+    btnInicio.onclick = function () { location.reload() };
+  }
+}
+
+// Restablecer juego
+function inicio() {
+  generaPalabra();
+  pintarGuiones(palabra.length);
+  teclado();
+  contador = 3;
+  document.getElementById("intentos").innerHTML = contador;
+}
+
+function reset(){
+  location.reload()
+}
+// Iniciar
+window.onload = inicio();
+
+</script>
