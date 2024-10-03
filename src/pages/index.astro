@@ -1,0 +1,29 @@
+---
+import Select from "../components/index/select";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/global.css" />
+    <title>Oasis</title>
+  </head>
+  <body>
+    <main class="flex justify-evenly">
+      <!-- PS iamge container -->
+      <section class="flex justify-center items-center">
+        <img class="w-96 h-auto" src="/public/img/ps.png" alt="ps image" />
+      </section>
+
+      <!-- Input section -->
+      <section class="flex flex-col justify-evenly items-center">
+        <h1 class="text-9xl">OASIS</h1>
+        <div>
+          <Select client:visible />
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
