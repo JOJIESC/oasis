@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { questions } from '../Quiz/questions.ts';
+import BackButton from '../BackButton.jsx';
 
 const Quiz = () => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -51,6 +52,7 @@ const Quiz = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gray-50 p-4">
+            <BackButton />
             <h1 className="text-4xl font-extrabold mb-8 text-blue-600">
                 Juego de Preguntas: Unidades de almacenamiento
             </h1>

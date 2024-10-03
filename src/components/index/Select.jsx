@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-import React from "react";
 function Select() {
   const [selectedGame, setselectedGame] = useState("Hangman");
   useEffect(() => {
