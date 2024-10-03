@@ -13,7 +13,7 @@ function Select() {
       <p>Choose a game to play</p>
       <div className="flex gap-8">
         <img
-          class="w-10 h-auto"
+          className="w-10 h-auto"
           src={`/icons/${selectedGame}.png`}
           alt="icon"
         />
@@ -33,11 +33,7 @@ function Select() {
             window.location.href = `/${selectedGame}`;
           }}
         >
-          <img
-            className="w-5 h-auto"
-            src="/public/icons/play.png"
-            alt="play icon"
-          />
+          <img className="w-5 h-auto" src="/icons/play.png" alt="play icon" />
           Play
         </button>
       </div>

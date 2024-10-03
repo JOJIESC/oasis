@@ -69,7 +69,7 @@ const Quiz = () => {
 
                 <div className="flex justify-center mb-6">
                 <video className="w-full max-w-lg rounded-lg shadow-lg" controls>
-                        <source src="public/VideoQuiz.mp4" type="video/mp4" />
+                        <source src="/VideoQuiz.mp4" type="video/mp4" />
                         Tu navegador no soporta la etiqueta de video.
         </video>
     </div>
